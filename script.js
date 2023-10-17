@@ -1,3 +1,40 @@
+const btn = document.querySelectorAll('.btn');
+const div = document.querySelector('#result');
+const playerCount = document.querySelector('#player-score .count');
+const roundCount = document.querySelector('#round .count');
+const computerCount = document.querySelector('#computer-score .count');
+let playerScore = 0;
+let computerScore = 0;
+let round = 0;
+
+btn.forEach((button) => {
+    button.addEventListener('click', () => {
+      playerSelection = button.id;
+      computerSelection = getComputerChoice();
+      result = playRound(playerSelection, computerSelection);
+      div.textContent = result;
+
+      if (result.includes('win')) {
+        playerScore++;
+      } else if (result.includes('lose')) {
+        computerScore++;
+      }
+
+      round++;
+      playerCount.textContent = playerScore;
+      roundCount.textContent = round;
+      computerCount.textContent = computerScore;
+
+      if (playerScore == 5) {
+        div.textContent = "You win the game!";
+        reset();
+      } else if (computerScore == 5) {
+        div.textContent = "You lose the game!";
+        reset();
+      }
+    });
+});
+
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];
     const randomNumber = Math.floor(Math.random() * 3);
@@ -31,35 +68,10 @@ function playRound(playerSelection, computerSelection) {
       return "Invalid input! Please enter rock, paper, or scissors.";
     }
 }
-   
-function game() {
 
-    let playerScore = 0;
-    let computerScore = 0;
-    
-    for (let i = 0; i < 5; i++) {
-
-        const playerSelection = prompt("Enter rock, paper, or scissors: ");
-        const computerSelection = getComputerChoice();
-        const result = playRound(playerSelection, computerSelection);
-        console.log(result);
-
-        if (result.includes("win")) {
-        playerScore++;
-        } else if (result.includes("lose")) {
-        computerScore++;
-        } else {
-            --i;
-        }
-    }
-    if (playerScore > computerScore) {
-        console.log("You win the game!");
-    } else if (playerScore < computerScore) {
-        console.log("You lose the game!");
-    } else {
-        console.log("It's a tie!");
-    }
+function reset() {
+  playerScore = 0;
+  computerScore = 0;
+  round = 0;
 }
-
-game();
   
